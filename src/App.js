@@ -6,14 +6,34 @@ function App() {
   const [page, setPage] = useState(0)
   const [followers, setFollowers] = useState([])
 
-  const handlePage = (index) => {
-    setPage(index)
-  }
-
   useEffect(() => {
     if (loading) return
     setFollowers(data[page])
   }, [loading, page])
+
+  const handlePage = (index) => {
+    setPage(index)
+  }
+
+  const prevPage = () => {
+    setPage((value) => {
+      let newValue = value - 1
+      if (newValue < 0) {
+        newValue = data.length - 1
+      }
+      return newValue
+    })
+  }
+
+  const nextPage = () => {
+    setPage((value) => {
+      let newValue = value + 1
+      if (newValue > data.length - 1) {
+        newValue = 0
+      }
+      return newValue
+    })
+  }
 
   return (
     <main>
@@ -27,16 +47,31 @@ function App() {
             return <Follower key={follower.id} {...follower} />
           })}
         </div>
-      </section>
-      <div className="btn-container">
-        {data.map((item, index) => {
-          return (
-            <button className="page-btn" onClick={() => handlePage(index)}>
-              {index + 1}
+
+        {!loading && (
+          <div className="btn-container">
+            <button className="prev-btn" onClick={prevPage}>
+              Prev
             </button>
-          )
-        })}
-      </div>
+            {data.map((item, index) => {
+              return (
+                <button
+                  key={index}
+                  className={
+                    page === index ? 'page-btn active-btn' : 'page-btn'
+                  }
+                  onClick={() => handlePage(index)}
+                >
+                  {index + 1}
+                </button>
+              )
+            })}
+            <button className="next-btn" onClick={nextPage}>
+              next
+            </button>
+          </div>
+        )}
+      </section>
     </main>
   )
 }
