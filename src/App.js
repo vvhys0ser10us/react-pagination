@@ -6,6 +6,10 @@ function App() {
   const [page, setPage] = useState(0)
   const [followers, setFollowers] = useState([])
 
+  const handlePage = (index) => {
+    setPage(index)
+  }
+
   useEffect(() => {
     if (loading) return
     setFollowers(data[page])
@@ -26,7 +30,11 @@ function App() {
       </section>
       <div className="btn-container">
         {data.map((item, index) => {
-          return <button className="page-btn">{index + 1}</button>
+          return (
+            <button className="page-btn" onClick={() => handlePage(index)}>
+              {index + 1}
+            </button>
+          )
         })}
       </div>
     </main>
