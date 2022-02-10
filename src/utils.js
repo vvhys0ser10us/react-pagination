@@ -6,6 +6,8 @@ const paginate = (data) => {
     const start = index * itemPerPage
     return data.slice(start, start + itemPerPage)
   })
+
+  return newData
 }
 
 export default paginate
